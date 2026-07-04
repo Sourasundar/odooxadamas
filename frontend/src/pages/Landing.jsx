@@ -4,6 +4,7 @@ import { ShieldCheck, Users, Zap, Clock, CalendarDays, Wallet, Building, ArrowRi
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Footerdemo } from '../components/ui/footer-section';
+import { HeroSection } from '../components/ui/retro-grid-hero';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const fadeIn = {
@@ -80,109 +81,48 @@ const Landing = () => {
       <main className="flex-grow">
         
         {/* HERO SECTION */}
-        <section className="relative pt-24 pb-32 overflow-hidden bg-mesh-pattern">
-          {/* Animated decorative blobs */}
-          <motion.div 
-            animate={{ 
-              y: [0, -20, 0],
-              rotate: [0, 5, 0]
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-20 left-10 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"
-          />
-          <motion.div 
-            animate={{ 
-              y: [0, 30, 0],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-10 right-20 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl pointer-events-none"
-          />
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              
-              {/* Left Side Content */}
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-                className="max-w-xl text-left"
-              >
-                <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur border border-slate-200/50 shadow-sm mb-8 text-sm font-semibold text-accent-primary">
-                  <Zap size={16} className="fill-accent-primary" />
-                  The Future of HR Management
-                </motion.div>
-                
-                <motion.h1 variants={fadeIn} className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-[1.1]">
-                  Manage your crew <br className="hidden lg:block" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary via-purple-500 to-blue-500">
-                    without the chaos.
-                  </span>
-                </motion.h1>
-                
-                <motion.p variants={fadeIn} className="text-lg sm:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
-                  Streamline your workforce management with automated payroll computation, real-time attendance tracking, and beautiful employee profiles — all in one unified platform.
-                </motion.p>
-                
-                <motion.div variants={fadeIn} className="flex flex-col sm:flex-row justify-start gap-4">
-                  <Link to="/signup">
-                    <Button variant="primary" className="px-8 py-4 rounded-full text-base shadow-xl shadow-accent-primary/30 hover:-translate-y-1 transition-all w-full sm:w-auto flex items-center justify-center gap-2 group">
-                      Start Free Trial <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                  <Link to="/login">
-                    <Button variant="secondary" className="px-8 py-4 rounded-full text-base bg-white/50 backdrop-blur-md border border-slate-200 hover:bg-white w-full sm:w-auto transition-all">
-                      See how it works
-                    </Button>
-                  </Link>
-                </motion.div>
-              </motion.div>
-
-              {/* Right Side Animation Slider */}
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative hidden lg:block h-[450px] w-full"
-              >
-                <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/5 to-purple-500/5 rounded-[2.5rem] border border-white shadow-2xl backdrop-blur flex items-center justify-center overflow-hidden">
-                   <AnimatePresence mode="wait">
-                     <motion.div
-                       key={currentSlide}
-                       initial={{ opacity: 0, x: 100, scale: 0.95 }}
-                       animate={{ opacity: 1, x: 0, scale: 1 }}
-                       exit={{ opacity: 0, x: -100, scale: 0.95 }}
-                       transition={{ duration: 0.5, ease: "easeInOut" }}
-                       className="text-center p-10 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white max-w-md lg:max-w-lg w-full mx-auto"
-                     >
-                        {(() => {
-                           const SlideIcon = slides[currentSlide].icon;
-                           return (
-                             <>
-                               <div className={`w-24 h-24 ${slides[currentSlide].bg} ${slides[currentSlide].color} rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm`}>
-                                 <SlideIcon size={48} strokeWidth={2.5} />
-                               </div>
-                               <h3 className="text-3xl font-bold text-slate-900 mb-4">{slides[currentSlide].title}</h3>
-                               <p className="text-slate-500 text-xl leading-relaxed">{slides[currentSlide].desc}</p>
-                             </>
-                           );
-                        })()}
-                     </motion.div>
-                   </AnimatePresence>
-                   
-                   {/* Slider Dots */}
-                   <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3">
-                     {slides.map((_, i) => (
-                       <div key={i} className={`h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-10 bg-accent-primary' : 'w-2.5 bg-slate-300'}`} />
-                     ))}
-                   </div>
-                </div>
-              </motion.div>
-
+        <HeroSection>
+          {/* Right Side Animation Slider */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative block h-[350px] sm:h-[400px] lg:h-[450px] w-full mt-12 lg:mt-0"
+          >
+            <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/5 to-purple-500/5 rounded-[2.5rem] border border-white shadow-2xl backdrop-blur flex items-center justify-center overflow-hidden">
+               <AnimatePresence mode="wait">
+                 <motion.div
+                   key={currentSlide}
+                   initial={{ opacity: 0, x: 100, scale: 0.95 }}
+                   animate={{ opacity: 1, x: 0, scale: 1 }}
+                   exit={{ opacity: 0, x: -100, scale: 0.95 }}
+                   transition={{ duration: 0.5, ease: "easeInOut" }}
+                   className="text-center p-6 sm:p-10 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white max-w-[90%] sm:max-w-md lg:max-w-lg w-full mx-auto"
+                 >
+                    {(() => {
+                       const SlideIcon = slides[currentSlide].icon;
+                       return (
+                         <>
+                           <div className={`w-16 h-16 sm:w-24 sm:h-24 ${slides[currentSlide].bg} ${slides[currentSlide].color} rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-8 shadow-sm`}>
+                             <SlideIcon className="w-8 h-8 sm:w-12 sm:h-12" strokeWidth={2.5} />
+                           </div>
+                           <h3 className="text-xl sm:text-3xl font-bold text-slate-900 mb-2 sm:mb-4">{slides[currentSlide].title}</h3>
+                           <p className="text-sm sm:text-xl text-slate-500 leading-relaxed">{slides[currentSlide].desc}</p>
+                         </>
+                       );
+                    })()}
+                 </motion.div>
+               </AnimatePresence>
+               
+               {/* Slider Dots */}
+               <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3">
+                 {slides.map((_, i) => (
+                   <div key={i} className={`h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-10 bg-accent-primary' : 'w-2.5 bg-slate-300'}`} />
+                 ))}
+               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </HeroSection>
 
         {/* LOGOS / SOCIAL PROOF (Mock) */}
         <section className="border-y border-slate-200/50 bg-white/50 backdrop-blur-sm py-10 overflow-hidden">
