@@ -21,7 +21,7 @@ const Payroll = ({ user }) => {
 
   const fetchPayrolls = async () => {
     try {
-      const url = isAdmin ? 'http://localhost:5000/api/payroll/all' : 'http://localhost:5000/api/payroll/me';
+      const url = isAdmin ? `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/all` : `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/me`;
       const res = await fetch(url, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
@@ -33,7 +33,7 @@ const Payroll = ({ user }) => {
   const fetchAdvances = async () => {
     if (!isAdmin) return;
     try {
-      const res = await fetch('http://localhost:5000/api/payroll/advances', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/advances`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -52,7 +52,7 @@ const Payroll = ({ user }) => {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch('http://localhost:5000/api/payroll/advance', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/advance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const Payroll = ({ user }) => {
     setAdvances(prev => prev.map(a => a.id === id ? { ...a, status } : a));
 
     try {
-      const res = await fetch(`http://localhost:5000/api/payroll/advance/${id}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/advance/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const Payroll = ({ user }) => {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      const res = await fetch(`http://localhost:5000/api/payroll/generate/${genMonth}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/payroll/generate/${genMonth}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
@@ -259,3 +259,4 @@ const Payroll = ({ user }) => {
 };
 
 export default Payroll;
+

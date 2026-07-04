@@ -9,7 +9,7 @@ const LeaveApprovals = () => {
   const fetchAllLeaves = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/leave/all', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leave/all`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -28,7 +28,7 @@ const LeaveApprovals = () => {
   const handleStatusChange = async (id, status) => {
     setLeaves(prev => prev.map(l => l.id === id ? { ...l, status } : l));
     try {
-      const res = await fetch(`http://localhost:5000/api/leave/${id}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leave/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ const LeaveApprovals = () => {
                     </td>
                     <td className="py-4">
                       {leave.attachment ? (
-                        <a href={`http://localhost:5000${leave.attachment}`} target="_blank" rel="noreferrer" className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline bg-indigo-50 px-2.5 py-1 rounded-md transition-colors whitespace-nowrap">
+                        <a href={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}${leave.attachment}`} target="_blank" rel="noreferrer" className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline bg-indigo-50 px-2.5 py-1 rounded-md transition-colors whitespace-nowrap">
                           View Proof
                         </a>
                       ) : (
@@ -126,3 +126,4 @@ const LeaveApprovals = () => {
 };
 
 export default LeaveApprovals;
+

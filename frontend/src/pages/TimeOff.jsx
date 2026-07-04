@@ -279,7 +279,7 @@ const NewTimeOffModal = ({ isOpen, onClose, user, onSuccess }) => {
         payload.append('attachment', formData.attachment);
       }
 
-      const res = await fetch('http://localhost:5000/api/leave/apply', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leave/apply`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -408,7 +408,7 @@ const TimeOff = ({ user }) => {
 
   const fetchMyLeaves = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/leave/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leave/me`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -528,3 +528,4 @@ const TimeOff = ({ user }) => {
 };
 
 export default TimeOff;
+

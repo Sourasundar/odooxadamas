@@ -20,3 +20,4 @@ export function Badge({ children, variant = 'blue', className = '' }) {
     </span>
   );
 }
+

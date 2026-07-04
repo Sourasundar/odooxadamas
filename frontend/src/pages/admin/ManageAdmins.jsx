@@ -13,7 +13,7 @@ const ManageAdmins = () => {
   const fetchEmails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/users/admin-emails', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/admin-emails`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -36,7 +36,7 @@ const ManageAdmins = () => {
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/users/admin-emails', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/admin-emails`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const ManageAdmins = () => {
   const handleRemove = async (emailToRemove) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/users/admin-emails/${emailToRemove}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/admin-emails/${emailToRemove}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -139,3 +139,4 @@ const ManageAdmins = () => {
 };
 
 export default ManageAdmins;
+

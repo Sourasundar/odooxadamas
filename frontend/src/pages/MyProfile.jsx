@@ -33,7 +33,7 @@ export const MyProfile = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/me`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -77,7 +77,7 @@ export const MyProfile = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/users/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/me`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -516,3 +516,4 @@ export const MyProfile = () => {
     </div>
   );
 };
+

@@ -1,5 +1,14 @@
-const prisma = require('../config/db');
+const { PrismaClient } = require('@prisma/client');
+const ImageKit = require('imagekit');
 const bcrypt = require('bcrypt');
+
+const prisma = new PrismaClient();
+
+const imagekit = new ImageKit({
+    publicKey : process.env.IMAGEKIT_PUBLIC_KEY,
+    privateKey : process.env.IMAGEKIT_PRIVATE_KEY,
+    urlEndpoint : process.env.IMAGEKIT_URL_ENDPOINT
+});
 
 // ── Helper: Generate Employee ID ─────────────────────────
 
@@ -212,7 +221,17 @@ const updateMyProfile = async (req, res) => {
              updateData[field] = null;
            }
         } else {
+        if (field === 'avatar' && req.body[field] && req.body[field].startsWith('data:image')) {
+          // Upload to ImageKit
+          const uploadRes = await imagekit.upload({
+            file: req.body[field], // base64 string
+            fileName: `avatar_${currentUser.id}_${Date.now()}.jpg`,
+            folder: '/avatars'
+          });
+          updateData[field] = uploadRes.url;
+        } else {
            updateData[field] = req.body[field];
+        }
         }
       }
     }

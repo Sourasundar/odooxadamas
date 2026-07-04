@@ -21,3 +21,4 @@ export function Avatar({ src, alt, size = 'md', initials, className = '' }) {
     </div>
   );
 }
+

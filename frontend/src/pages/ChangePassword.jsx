@@ -25,7 +25,7 @@ const ChangePassword = () => {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('No authentication token found');
 
-      const res = await fetch('http://localhost:5000/api/auth/change-password', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,3 +126,4 @@ const ChangePassword = () => {
 };
 
 export default ChangePassword;
+

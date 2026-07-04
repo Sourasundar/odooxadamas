@@ -13,7 +13,7 @@ const Attendance = ({ user }) => {
 
   const fetchMyData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/attendance/me', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/attendance/me`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -23,7 +23,7 @@ const Attendance = ({ user }) => {
 
   const fetchAdminData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/attendance/today', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/attendance/today`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -58,7 +58,7 @@ const Attendance = ({ user }) => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/attendance/${action}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/attendance/${action}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,3 +209,4 @@ const Attendance = ({ user }) => {
 };
 
 export default Attendance;
+

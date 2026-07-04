@@ -32,7 +32,7 @@ const EmployeeCards = ({ user }) => {
     const fetchEmployees = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:5000/api/users', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -231,7 +231,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) return;
-        const res = await fetch('http://localhost:5000/api/auth/me', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/me`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -266,3 +266,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

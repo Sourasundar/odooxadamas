@@ -147,3 +147,4 @@ const Sidebar = ({ user, onCloseMobile }) => {
 };
 
 export default Sidebar;
+

@@ -24,3 +24,4 @@ export function SegmentedControl({ options, value, onChange, className = '' }) {
     </div>
   );
 }
+

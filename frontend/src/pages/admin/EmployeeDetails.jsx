@@ -37,10 +37,10 @@ const EmployeeDetails = ({ user: currentUser }) => {
       try {
         const token = localStorage.getItem('token');
         const [userRes, leavesRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/users/${id}`, {
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           }),
-          fetch(`http://localhost:5000/api/leaves/user/${id}`, {
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leaves/user/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           })
         ]);
@@ -145,7 +145,7 @@ const EmployeeDetails = ({ user: currentUser }) => {
                 try {
                   const token = localStorage.getItem('token');
                   // Handle JSON data update
-                  const res = await fetch(`http://localhost:5000/api/users/${id}`, {
+                  const res = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/${id}`, {
                     method: 'PUT',
                     headers: { 
                       'Authorization': `Bearer ${token}`,
@@ -165,7 +165,7 @@ const EmployeeDetails = ({ user: currentUser }) => {
                     if (editFiles.voterDoc) formData.append('voterDoc', editFiles.voterDoc);
                     if (editFiles.addressProofDoc) formData.append('addressProofDoc', editFiles.addressProofDoc);
                     
-                    const fileRes = await fetch(`http://localhost:5000/api/users/${id}/upload-kyc`, {
+                    const fileRes = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/users/${id}/upload-kyc`, {
                       method: 'POST',
                       headers: { 'Authorization': `Bearer ${token}` },
                       body: formData
@@ -631,14 +631,14 @@ const EmployeeDetails = ({ user: currentUser }) => {
                       <p className="text-xs font-bold text-slate-400 uppercase mb-1">Aadhar Number</p>
                       <p className="text-base font-semibold text-slate-800 flex items-center gap-2">
                         {employee.aadharNo || 'Not provided'} 
-                        {employee.aadharDoc && <a href={`http://localhost:5000${employee.aadharDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
+                        {employee.aadharDoc && <a href={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}${employee.aadharDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-400 uppercase mb-1">PAN Number</p>
                       <p className="text-base font-semibold text-slate-800 flex items-center gap-2">
                         {employee.panNo || 'Not provided'}
-                        {employee.panDoc && <a href={`http://localhost:5000${employee.panDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
+                        {employee.panDoc && <a href={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}${employee.panDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
                       </p>
                     </div>
                   </div>
@@ -647,13 +647,13 @@ const EmployeeDetails = ({ user: currentUser }) => {
                       <p className="text-xs font-bold text-slate-400 uppercase mb-1">Voter ID</p>
                       <p className="text-base font-semibold text-slate-800 flex items-center gap-2">
                         {employee.voterIdNo || 'Not provided'}
-                        {employee.voterDoc && <a href={`http://localhost:5000${employee.voterDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
+                        {employee.voterDoc && <a href={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}${employee.voterDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Doc</a>}
                       </p>
                     </div>
                     <div>
                       <p className="text-xs font-bold text-slate-400 uppercase mb-1">Address Proof</p>
                       <p className="text-base font-semibold text-slate-800 flex items-center gap-2">
-                        {employee.addressProofDoc ? <a href={`http://localhost:5000${employee.addressProofDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Address Proof</a> : 'Not provided'}
+                        {employee.addressProofDoc ? <a href={`${import.meta.env.VITE_API_URL || "http://localhost:5000"}${employee.addressProofDoc}`} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-xs bg-indigo-50 px-2 py-1 rounded">View Address Proof</a> : 'Not provided'}
                       </p>
                     </div>
                   </div>
@@ -734,3 +734,4 @@ const EmployeeDetails = ({ user: currentUser }) => {
 };
 
 export default EmployeeDetails;
+

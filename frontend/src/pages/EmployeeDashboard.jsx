@@ -24,8 +24,8 @@ const EmployeeDashboard = ({ user }) => {
       try {
         const token = localStorage.getItem('token');
         const [attRes, leaveRes] = await Promise.all([
-          fetch('http://localhost:5000/api/attendance/me', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('http://localhost:5000/api/leave/me', { headers: { 'Authorization': `Bearer ${token}` } })
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/attendance/me`, { headers: { 'Authorization': `Bearer ${token}` } }),
+          fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/leave/me`, { headers: { 'Authorization': `Bearer ${token}` } })
         ]);
         
         if (attRes.ok) {
@@ -265,3 +265,4 @@ const EmployeeDashboard = ({ user }) => {
 };
 
 export default EmployeeDashboard;
+
