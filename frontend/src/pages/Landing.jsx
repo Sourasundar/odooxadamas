@@ -1,178 +1,342 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Users, Zap, Clock, CalendarDays, Wallet, Building } from 'lucide-react';
+import { ShieldCheck, Users, Zap, Clock, CalendarDays, Wallet, Building, ArrowRight, CheckCircle2, BarChart3, Fingerprint } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Footerdemo } from '../components/ui/footer-section';
+import { motion, AnimatePresence } from 'framer-motion';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+const fadeIn = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
 
 const Landing = () => {
-  const container = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
   
-  useGSAP(() => {
-    // Background subtle orb animation
-    gsap.to(".bg-orb", {
-      y: "random(-30, 30)",
-      x: "random(-30, 30)",
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      stagger: 1
-    });
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    // Hero Section Entrance
-    const tl = gsap.timeline();
-    tl.fromTo(".hero-element", 
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out", delay: 0.1 }
-    );
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
-    // Staggered Cards on Scroll
-    gsap.fromTo(".feature-card",
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".features-grid",
-          start: "top 85%",
-        }
-      }
-    );
-  }, { scope: container });
-
-  // 3D Tilt Effect on Mouse Move
-  const handleMouseMove = (e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
-    const rotateY = ((x - centerX) / centerX) * 10;
-    
-    gsap.to(card, {
-      rotateX,
-      rotateY,
-      duration: 0.4,
-      ease: "power2.out",
-      transformPerspective: 1200
-    });
-  };
-
-  const handleMouseLeave = (e) => {
-    const card = e.currentTarget;
-    gsap.to(card, {
-      rotateX: 0,
-      rotateY: 0,
-      duration: 0.6,
-      ease: "power2.out"
-    });
-  };
+  const slides = [
+    { title: "Real-Time Tracking", desc: "Monitor employee check-ins instantly.", icon: Clock, color: "text-blue-500", bg: "bg-blue-100" },
+    { title: "Automated Payroll", desc: "One-click accurate salary generation.", icon: Wallet, color: "text-purple-500", bg: "bg-purple-100" },
+    { title: "Leave Management", desc: "Approve time-off requests effortlessly.", icon: CalendarDays, color: "text-rose-500", bg: "bg-rose-100" }
+  ];
 
   return (
-    <div ref={container} className="flex flex-col min-h-screen relative overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-slate-50 font-sans">
       
-      {/* Subtle Background Orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="bg-orb absolute top-[10%] left-[10%] w-[40vw] h-[40vw] rounded-full bg-blue-400/10 blur-[100px]"></div>
-        <div className="bg-orb absolute bottom-[10%] right-[10%] w-[30vw] h-[30vw] rounded-full bg-indigo-400/10 blur-[100px]"></div>
-      </div>
-
       {/* Navbar */}
-      <nav className="border-b border-border-subtle ag-glass sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-accent-primary text-white flex items-center justify-center">
-              <Building size={18} />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-text-primary">
-              HRMS
-            </span>
+      <motion.nav 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? "border-b border-slate-200/50 bg-white/70 backdrop-blur-xl shadow-sm" 
+            : "bg-transparent border-transparent"
+        }`}
+      >
+        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/Crew.png" alt="Crew HRMS Logo" className="h-16 w-auto object-contain drop-shadow-sm scale-110 origin-left" />
           </div>
-          <div className="flex gap-3">
-            <Link to="/login">
-              <Button variant="ghost" className="text-sm nav-btn border border-border-strong hover:border-accent-primary hover:ring-2 hover:ring-accent-primary/30 hover:scale-105 transition-all duration-300">Sign In</Button>
+          <div className="flex gap-4 items-center">
+            <Link to="/login" className="text-sm font-semibold text-slate-700 hover:text-accent-primary border border-slate-200 hover:border-accent-primary/50 bg-white/50 hover:bg-white px-5 py-2.5 rounded-full transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0">
+              Sign In
             </Link>
             <Link to="/signup">
-              <Button variant="primary" className="text-sm px-5 py-2 nav-btn hover:scale-105 transition-all duration-300">Get Started</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <main className="flex-grow z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative">
-          <h1 className="hero-element text-4xl sm:text-5xl font-extrabold text-text-primary tracking-tight mb-5 leading-tight">
-            Human Resource <br className="hidden sm:block" /> Management System
-          </h1>
-          <p className="hero-element mt-4 text-lg text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
-            Streamline your workforce management with automated payroll computation, real-time attendance tracking, and secure role-based access — all in one platform.
-          </p>
-          <div className="hero-element flex justify-center gap-4">
-            <Link to="/signup">
-              <Button variant="primary" className="px-8 py-3 hover:-translate-y-1 transition-all duration-300">
-                Start Free Trial
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="ghost" className="px-8 py-3 border border-border-strong hover:border-accent-primary hover:ring-2 hover:ring-accent-primary/30 hover:-translate-y-1 transition-all duration-300">
-                Sign In
+              <Button variant="primary" className="text-sm px-6 py-2.5 rounded-full shadow-lg shadow-accent-primary/20 hover:shadow-accent-primary/40 transition-all">
+                Get Started
               </Button>
             </Link>
           </div>
         </div>
+      </motion.nav>
 
-        {/* Features */}
-        <div className="py-16 features-grid relative z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12 hero-element">
-              <h2 className="text-2xl font-bold text-text-primary">Everything you need to manage your team</h2>
-              <p className="text-text-secondary mt-2 text-sm">Built for growing companies that need a reliable, all-in-one HR solution.</p>
+      <main className="flex-grow">
+        
+        {/* HERO SECTION */}
+        <section className="relative pt-24 pb-32 overflow-hidden bg-mesh-pattern">
+          {/* Animated decorative blobs */}
+          <motion.div 
+            animate={{ 
+              y: [0, -20, 0],
+              rotate: [0, 5, 0]
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-20 left-10 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"
+          />
+          <motion.div 
+            animate={{ 
+              y: [0, 30, 0],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-10 right-20 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl pointer-events-none"
+          />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              
+              {/* Left Side Content */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+                className="max-w-xl text-left"
+              >
+                <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur border border-slate-200/50 shadow-sm mb-8 text-sm font-semibold text-accent-primary">
+                  <Zap size={16} className="fill-accent-primary" />
+                  The Future of HR Management
+                </motion.div>
+                
+                <motion.h1 variants={fadeIn} className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-[1.1]">
+                  Manage your crew <br className="hidden lg:block" />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary via-purple-500 to-blue-500">
+                    without the chaos.
+                  </span>
+                </motion.h1>
+                
+                <motion.p variants={fadeIn} className="text-lg sm:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
+                  Streamline your workforce management with automated payroll computation, real-time attendance tracking, and beautiful employee profiles — all in one unified platform.
+                </motion.p>
+                
+                <motion.div variants={fadeIn} className="flex flex-col sm:flex-row justify-start gap-4">
+                  <Link to="/signup">
+                    <Button variant="primary" className="px-8 py-4 rounded-full text-base shadow-xl shadow-accent-primary/30 hover:-translate-y-1 transition-all w-full sm:w-auto flex items-center justify-center gap-2 group">
+                      Start Free Trial <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Link to="/login">
+                    <Button variant="secondary" className="px-8 py-4 rounded-full text-base bg-white/50 backdrop-blur-md border border-slate-200 hover:bg-white w-full sm:w-auto transition-all">
+                      See how it works
+                    </Button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              {/* Right Side Animation Slider */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative hidden lg:block h-[450px] w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-tr from-accent-primary/5 to-purple-500/5 rounded-[2.5rem] border border-white shadow-2xl backdrop-blur flex items-center justify-center overflow-hidden">
+                   <AnimatePresence mode="wait">
+                     <motion.div
+                       key={currentSlide}
+                       initial={{ opacity: 0, x: 100, scale: 0.95 }}
+                       animate={{ opacity: 1, x: 0, scale: 1 }}
+                       exit={{ opacity: 0, x: -100, scale: 0.95 }}
+                       transition={{ duration: 0.5, ease: "easeInOut" }}
+                       className="text-center p-10 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white max-w-md lg:max-w-lg w-full mx-auto"
+                     >
+                        {(() => {
+                           const SlideIcon = slides[currentSlide].icon;
+                           return (
+                             <>
+                               <div className={`w-24 h-24 ${slides[currentSlide].bg} ${slides[currentSlide].color} rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-sm`}>
+                                 <SlideIcon size={48} strokeWidth={2.5} />
+                               </div>
+                               <h3 className="text-3xl font-bold text-slate-900 mb-4">{slides[currentSlide].title}</h3>
+                               <p className="text-slate-500 text-xl leading-relaxed">{slides[currentSlide].desc}</p>
+                             </>
+                           );
+                        })()}
+                     </motion.div>
+                   </AnimatePresence>
+                   
+                   {/* Slider Dots */}
+                   <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3">
+                     {slides.map((_, i) => (
+                       <div key={i} className={`h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? 'w-10 bg-accent-primary' : 'w-2.5 bg-slate-300'}`} />
+                     ))}
+                   </div>
+                </div>
+              </motion.div>
+
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ag-perspective">
-              {[
-                { icon: ShieldCheck, title: 'Secure RBAC', desc: 'Role-based access control with JWT authentication. Employees see only their data; Admins manage everything.' },
-                { icon: Clock, title: 'Real-Time Attendance', desc: 'Check In / Check Out system with live status indicators. Track working hours and break times automatically.' },
-                { icon: Wallet, title: 'Automated Payroll', desc: 'Auto-compute Basic, HRA, PF, LTA, Professional Tax and Fixed Allowance from a single wage input.' },
-                { icon: Users, title: 'Employee Directory', desc: 'Visual employee cards with status indicators. Click any card to view full profile in read-only mode.' },
-                { icon: CalendarDays, title: 'Leave Management', desc: 'Paid, Sick, and Unpaid leave types. Employees request, Admins approve/reject with one click.' },
-                { icon: Zap, title: 'Auto-Generated IDs', desc: 'System generates employee IDs, temporary passwords, and handles first-login password changes.' },
-              ].map(({ icon: Icon, title, desc }, i) => (
-                <Card 
-                  key={i} 
-                  className="feature-card p-5 ag-tilt-card bg-surface-glass-solid hover:ag-shadow-weightless border border-white/60 relative overflow-hidden"
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="w-10 h-10 bg-accent-primary/10 text-accent-primary rounded-lg flex items-center justify-center mb-3 transition-colors duration-300">
-                    <Icon size={20} />
-                  </div>
-                  <h3 className="text-base font-bold text-text-primary mb-1.5">{title}</h3>
-                  <p className="text-text-secondary text-sm leading-relaxed">{desc}</p>
-                </Card>
+          </div>
+        </section>
+
+        {/* LOGOS / SOCIAL PROOF (Mock) */}
+        <section className="border-y border-slate-200/50 bg-white/50 backdrop-blur-sm py-10 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">Trusted by modern teams worldwide</p>
+            <div className="flex justify-center gap-12 sm:gap-20 opacity-40 grayscale flex-wrap">
+              {['Acme Corp', 'Globex', 'Soylent', 'Initech', 'Umbrella'].map((logo, i) => (
+                <div key={i} className="text-xl font-black tracking-tighter flex items-center gap-2">
+                  <Fingerprint size={24} /> {logo}
+                </div>
               ))}
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* FEATURES GRID */}
+        <section className="py-24 bg-white relative">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeIn}
+              className="text-center mb-20"
+            >
+              <h2 className="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight mb-4">Everything you need, <br />nothing you don't.</h2>
+              <p className="text-slate-500 text-lg max-w-2xl mx-auto">Built for growing companies that demand a reliable, beautiful, and blazing-fast HR solution.</p>
+            </motion.div>
+            
+            <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {[
+                { icon: ShieldCheck, title: 'Secure RBAC', desc: 'Role-based access control with JWT authentication. Employees see only their data; Admins manage everything.', color: 'text-emerald-500', bg: 'bg-emerald-50' },
+                { icon: Clock, title: 'Real-Time Attendance', desc: 'Check In / Check Out system with live status indicators. Track working hours and break times automatically.', color: 'text-blue-500', bg: 'bg-blue-50' },
+                { icon: Wallet, title: 'Automated Payroll', desc: 'Auto-compute Basic, HRA, PF, LTA, Professional Tax and Fixed Allowance from a single wage input.', color: 'text-purple-500', bg: 'bg-purple-50' },
+                { icon: Users, title: 'Employee Directory', desc: 'Visual employee cards with status indicators. Click any card to view full profile in read-only mode.', color: 'text-amber-500', bg: 'bg-amber-50' },
+                { icon: CalendarDays, title: 'Leave Management', desc: 'Paid, Sick, and Unpaid leave types. Employees request, Admins approve/reject with one click.', color: 'text-rose-500', bg: 'bg-rose-50' },
+                { icon: BarChart3, title: 'Dynamic Dashboards', desc: 'Beautiful, interactive charts and heatmaps that give you an instant overview of your workforce.', color: 'text-indigo-500', bg: 'bg-indigo-50' },
+              ].map(({ icon: Icon, title, desc, color, bg }, i) => (
+                <motion.div key={i} variants={fadeIn}>
+                  <Card className="h-full p-8 border border-slate-100 bg-white/50 backdrop-blur-sm hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-indigo-100 transition-all duration-300 group cursor-default">
+                    <div className={`w-14 h-14 ${bg} ${color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
+                      <Icon size={28} strokeWidth={2.5} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-accent-primary transition-colors">{title}</h3>
+                    <p className="text-slate-600 leading-relaxed">{desc}</p>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* HOW IT WORKS / STATS */}
+        <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-accent-primary via-slate-900 to-slate-900 pointer-events-none"></div>
+           
+           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <motion.div 
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeIn}
+                >
+                  <h2 className="text-3xl sm:text-5xl font-bold tracking-tight mb-6 leading-tight">
+                    Onboard in minutes.<br/> Scale for years.
+                  </h2>
+                  <p className="text-slate-400 text-lg mb-8 leading-relaxed">
+                    Say goodbye to messy spreadsheets and disconnected tools. Crew brings everything under one roof with a workflow designed for speed.
+                  </p>
+                  <ul className="space-y-4">
+                    {[
+                      'Add employees and assign roles instantly',
+                      'Employees self-serve their check-ins and time off',
+                      'Generate accurate payroll with a single click'
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 text-slate-300 font-medium">
+                        <CheckCircle2 size={20} className="text-accent-primary" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
+                  whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  {/* Mock Dashboard Graphic */}
+                  <div className="bg-slate-800 rounded-3xl border border-slate-700 shadow-2xl p-2 relative z-10 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/20 to-purple-500/20 blur-xl -z-10 rounded-3xl"></div>
+                    <div className="bg-slate-900 rounded-2xl overflow-hidden border border-slate-700">
+                      <div className="h-8 bg-slate-800 border-b border-slate-700 flex items-center px-4 gap-2">
+                         <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                         <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                         <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                      </div>
+                      <div className="p-6">
+                        <div className="h-4 bg-slate-800 rounded w-1/3 mb-6"></div>
+                        <div className="flex gap-4 mb-6">
+                           <div className="h-24 bg-slate-800 rounded flex-1"></div>
+                           <div className="h-24 bg-slate-800 rounded flex-1"></div>
+                           <div className="h-24 bg-slate-800 rounded flex-1"></div>
+                        </div>
+                        <div className="h-40 bg-slate-800 rounded w-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+              </div>
+           </div>
+        </section>
+
+        {/* BOTTOM CTA */}
+        <section className="py-24 bg-white relative overflow-hidden">
+           <motion.div 
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"
+           >
+              <div className="bg-mesh-pattern rounded-[3rem] p-12 sm:p-20 shadow-2xl shadow-indigo-500/10 border border-white">
+                <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight mb-6">
+                  Ready to upgrade your HR?
+                </h2>
+                <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
+                  Join hundreds of forward-thinking companies that use Crew to manage their workforce effortlessly.
+                </p>
+                <Link to="/signup">
+                  <Button variant="primary" className="px-10 py-5 rounded-full text-lg shadow-xl shadow-accent-primary/30 hover:scale-105 transition-transform">
+                    Get Started for Free
+                  </Button>
+                </Link>
+                <p className="text-sm text-slate-500 mt-6 font-medium">No credit card required. 14-day free trial.</p>
+              </div>
+           </motion.div>
+        </section>
+
       </main>
       
-      {/* Footer */}
-      <footer className="bg-text-primary py-8 text-center text-text-tertiary text-sm z-10 relative">
-        <p>&copy; {new Date().getFullYear()} HRMS. All rights reserved.</p>
-      </footer>
+      <Footerdemo />
     </div>
   );
 };
