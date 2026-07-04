@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function UniversalAuth({ defaultIsSignUp = false }) {
   const [isSignUp, setIsSignUp] = useState(defaultIsSignUp);
@@ -9,6 +10,7 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
   // Login State
   const [identifier, setIdentifier] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
 
@@ -21,6 +23,8 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
     password: '',
     confirmPassword: ''
   });
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
   const [signupError, setSignupError] = useState('');
 
@@ -120,17 +124,27 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
                 </div>
               )}
 
-              <input required name="displayName" type="text" placeholder="Name" value={formData.displayName} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
-              <input required name="email" type="email" placeholder="Email" value={formData.email} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
-              <input name="phone" type="tel" placeholder="Phone" value={formData.phone} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
-              <input required name="department" type="text" placeholder="Department" value={formData.department} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
+              <input required name="displayName" type="text" placeholder="Name" value={formData.displayName} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#4B4DD9]" />
+              <input required name="email" type="email" placeholder="Email" value={formData.email} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#4B4DD9]" />
+              <input name="phone" type="tel" placeholder="Phone" value={formData.phone} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#4B4DD9]" />
+              <input required name="department" type="text" placeholder="Department" value={formData.department} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#4B4DD9]" />
               
               <div className="flex gap-2">
-                <input required name="password" type="password" placeholder="Password" value={formData.password} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
-                <input required name="confirmPassword" type="password" placeholder="Confirm" value={formData.confirmPassword} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
+                <div className="relative w-full">
+                  <input required name="password" type={showSignupPassword ? "text" : "password"} placeholder="Password" value={formData.password} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-10 outline-none focus:border-[#4B4DD9]" />
+                  <button type="button" onClick={() => setShowSignupPassword(!showSignupPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4B4DD9] transition-colors">
+                    {showSignupPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                <div className="relative w-full">
+                  <input required name="confirmPassword" type={showSignupConfirmPassword ? "text" : "password"} placeholder="Confirm" value={formData.confirmPassword} onChange={handleSignupChange} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-10 outline-none focus:border-[#4B4DD9]" />
+                  <button type="button" onClick={() => setShowSignupConfirmPassword(!showSignupConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4B4DD9] transition-colors">
+                    {showSignupConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
               
-              <button type="submit" disabled={signupLoading} className="w-full rounded-xl bg-[#5D5FEF] px-4 py-3 font-semibold text-white hover:bg-[#4B4DD9] transition-colors disabled:opacity-70">
+              <button type="submit" disabled={signupLoading} className="w-full rounded-xl bg-[#4B4DD9] px-4 py-3 font-semibold text-white hover:bg-[#3B3DB9] transition-colors disabled:opacity-70">
                 {signupLoading ? 'Creating Account...' : 'Sign Up'}
               </button>
 
@@ -154,10 +168,16 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
                 </div>
               )}
 
-              <input required type="text" placeholder="Login Id / Email" value={identifier} onChange={(e) => setIdentifier(e.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
-              <input required type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#5D5FEF]" />
+              <input required type="text" placeholder="Login Id / Email" value={identifier} onChange={(e) => setIdentifier(e.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-[#4B4DD9]" />
               
-              <button type="submit" disabled={loginLoading} className="w-full rounded-xl bg-[#5D5FEF] px-4 py-3 mt-4 font-semibold text-white hover:bg-[#4B4DD9] transition-colors disabled:opacity-70">
+              <div className="relative w-full">
+                <input required type={showLoginPassword ? "text" : "password"} placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-10 outline-none focus:border-[#4B4DD9]" />
+                <button type="button" onClick={() => setShowLoginPassword(!showLoginPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4B4DD9] transition-colors">
+                  {showLoginPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              
+              <button type="submit" disabled={loginLoading} className="w-full rounded-xl bg-[#4B4DD9] px-4 py-3 mt-4 font-semibold text-white hover:bg-[#3B3DB9] transition-colors disabled:opacity-70 shadow-md hover:shadow-lg">
                 {loginLoading ? 'Signing In...' : 'Sign In'}
               </button>
 
@@ -177,8 +197,8 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
               {/* Left Overlay (Shown when signing up) */}
               <div className="auth-overlay-panel auth-overlay-left">
                 <h2 className="text-3xl font-bold mb-4 font-serif">Welcome Back!</h2>
-                <p className="text-sm mb-8">To keep connected with us please login with your personal info</p>
-                <button onClick={() => togglePanel(false)} className="rounded-xl border-2 border-gray-900 px-12 py-3 font-semibold text-gray-900 hover:bg-gray-900 hover:text-white transition-colors">
+                <p className="text-sm mb-8 text-indigo-100">To keep connected with us please login with your personal info</p>
+                <button onClick={() => togglePanel(false)} className="rounded-xl border-2 border-white px-12 py-3 font-semibold text-white hover:bg-white hover:text-[#4B4DD9] transition-colors shadow-sm">
                   Sign In
                 </button>
               </div>
@@ -186,8 +206,8 @@ export default function UniversalAuth({ defaultIsSignUp = false }) {
               {/* Right Overlay (Shown when signing in) */}
               <div className="auth-overlay-panel auth-overlay-right">
                 <h2 className="text-3xl font-bold mb-4 font-serif">Hello, Friend!</h2>
-                <p className="text-sm mb-8">Enter your personal details and start your journey with us</p>
-                <button onClick={() => togglePanel(true)} className="rounded-xl border-2 border-gray-900 px-12 py-3 font-semibold text-gray-900 hover:bg-gray-900 hover:text-white transition-colors">
+                <p className="text-sm mb-8 text-indigo-100">Enter your personal details and start your journey with us</p>
+                <button onClick={() => togglePanel(true)} className="rounded-xl border-2 border-white px-12 py-3 font-semibold text-white hover:bg-white hover:text-[#4B4DD9] transition-colors shadow-sm">
                   Sign Up
                 </button>
               </div>
