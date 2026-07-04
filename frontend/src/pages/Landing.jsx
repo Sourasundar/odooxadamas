@@ -102,10 +102,10 @@ const Landing = () => {
           </div>
           <div className="flex gap-3">
             <Link to="/login">
-              <Button variant="ghost" className="text-sm nav-btn hover:scale-105 transition-transform duration-300">Sign In</Button>
+              <Button variant="ghost" className="text-sm nav-btn border border-border-strong hover:border-accent-primary hover:ring-2 hover:ring-accent-primary/30 hover:scale-105 transition-all duration-300">Sign In</Button>
             </Link>
             <Link to="/signup">
-              <Button variant="primary" className="text-sm px-5 py-2 nav-btn hover:scale-105 transition-transform duration-300">Get Started</Button>
+              <Button variant="primary" className="text-sm px-5 py-2 nav-btn hover:scale-105 transition-all duration-300">Get Started</Button>
             </Link>
           </div>
         </div>
@@ -127,7 +127,7 @@ const Landing = () => {
               </Button>
             </Link>
             <Link to="/login">
-              <Button variant="secondary" className="px-8 py-3 border-transparent hover:-translate-y-1 transition-all duration-300">
+              <Button variant="ghost" className="px-8 py-3 border border-border-strong hover:border-accent-primary hover:ring-2 hover:ring-accent-primary/30 hover:-translate-y-1 transition-all duration-300">
                 Sign In
               </Button>
             </Link>
