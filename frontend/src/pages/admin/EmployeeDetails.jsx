@@ -399,8 +399,12 @@ const EmployeeDetails = ({ user: currentUser }) => {
             <div className="flex flex-col sm:flex-row items-start gap-6">
               {/* Avatar pulled up into the banner */}
               <div className="w-32 h-32 rounded-2xl bg-white p-1.5 shadow-lg border border-slate-100 relative z-10 -mt-16">
-                <div className="w-full h-full bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-4xl font-extrabold shadow-inner">
-                  {(employee.displayName || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                <div className="w-full h-full bg-gradient-to-br from-indigo-50 to-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-4xl font-extrabold shadow-inner overflow-hidden">
+                  {employee.avatar ? (
+                    <img src={employee.avatar} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    (employee.displayName || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                  )}
                 </div>
               </div>
               {/* Text positioned safely below the banner line */}

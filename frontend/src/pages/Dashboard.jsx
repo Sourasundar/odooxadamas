@@ -174,8 +174,12 @@ const EmployeeCards = ({ user }) => {
                     <tr key={emp.id} className="hover:bg-slate-50/80 transition-colors group">
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0">
-                            {initials}
+                          <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden border border-indigo-200 shadow-sm">
+                            {emp.avatar ? (
+                              <img src={emp.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                            ) : (
+                              initials
+                            )}
                           </div>
                           <div>
                             <p className="font-bold text-slate-800">{emp.displayName}</p>

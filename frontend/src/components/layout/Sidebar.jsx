@@ -111,7 +111,7 @@ const Sidebar = ({ user }) => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="hover:ring-2 hover:ring-accent-primary rounded-full transition-all focus:outline-none"
           >
-            <Avatar size="sm" initials={initials} className="bg-text-primary text-white w-8 h-8 text-[12px]" />
+            <Avatar size="sm" src={user?.avatar} initials={initials} className="bg-text-primary text-white w-8 h-8 text-[12px]" />
           </button>
           
           {dropdownOpen && (

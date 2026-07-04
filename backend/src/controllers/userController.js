@@ -205,8 +205,12 @@ const updateMyProfile = async (req, res) => {
            continue;
         }
         
-        if (field === 'dateOfBirth' && req.body[field]) {
-           updateData[field] = new Date(req.body[field]);
+        if (field === 'dateOfBirth') {
+           if (req.body[field]) {
+             updateData[field] = new Date(req.body[field]);
+           } else {
+             updateData[field] = null;
+           }
         } else {
            updateData[field] = req.body[field];
         }
