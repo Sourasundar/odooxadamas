@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { KeyRound } from 'lucide-react';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('');
@@ -54,70 +57,69 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
-      <div className="saas-panel p-10 w-full max-w-md bg-white border border-slate-200">
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center mx-auto mb-4 border border-amber-100">
-            <KeyRound className="text-amber-600" size={24} />
+    <div className="flex flex-col justify-center flex-grow py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md mx-auto">
+        <Card className="p-8 sm:p-10">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-warning/10 rounded-xl flex items-center justify-center mx-auto mb-4 border border-warning/20 shadow-sm">
+              <KeyRound className="text-warning" size={28} />
+            </div>
+            <h1 className="text-2xl font-bold text-text-primary tracking-tight">Security Required</h1>
+            <p className="text-text-secondary mt-2 text-sm">You must change your default password before accessing your dashboard.</p>
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Security Required</h1>
-          <p className="text-slate-500 mt-2 text-sm">You must change your default password before accessing your dashboard.</p>
-        </div>
-        
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
-            {error}
-          </div>
-        )}
+          
+          {error && (
+            <div className="mb-6 p-3 bg-danger/10 text-danger text-sm rounded-lg border border-danger/20 font-medium text-center">
+              {error}
+            </div>
+          )}
 
-        {success ? (
-          <div className="text-center p-6 bg-green-50 rounded-md border border-green-100">
-            <h3 className="text-green-700 font-semibold mb-2">Password Updated!</h3>
-            <p className="text-green-600 text-sm">Redirecting to dashboard...</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Current Password</label>
-              <input 
-                type="password" 
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow text-sm"
-                required
-              />
+          {success ? (
+            <div className="text-center p-6 bg-success/10 rounded-lg border border-success/20">
+              <h3 className="text-success font-semibold mb-2">Password Updated!</h3>
+              <p className="text-success/80 text-sm">Redirecting to dashboard...</p>
             </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">New Password</label>
-              <input 
-                type="password" 
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow text-sm"
-                required
-              />
-            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div>
+                <label className="block text-sm font-medium text-text-secondary mb-1">Current Password</label>
+                <Input
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-text-secondary mb-1">New Password</label>
+                <Input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Confirm New Password</label>
-              <input 
-                type="password" 
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow text-sm"
-                required
-              />
-            </div>
-            
-            <button 
-              type="submit"
-              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-md transition-colors mt-2 text-sm"
-            >
-              Update Password
-            </button>
-          </form>
-        )}
+              <div>
+                <label className="block text-sm font-medium text-text-secondary mb-1">Confirm New Password</label>
+                <Input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+              
+              <Button
+                type="submit"
+                className="w-full mt-3"
+              >
+                Update Password
+              </Button>
+            </form>
+          )}
+        </Card>
       </div>
     </div>
   );

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Plus, Trash2, ShieldAlert } from 'lucide-react';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
 
 const ManageAdmins = () => {
   const [emails, setEmails] = useState([]);
@@ -68,60 +71,59 @@ const ManageAdmins = () => {
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm max-w-3xl">
-      <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-        <div className="w-10 h-10 bg-primary-50 rounded-lg flex items-center justify-center text-primary-600">
+    <Card className="p-6 max-w-3xl !rounded-[24px]">
+      <div className="flex items-center gap-3 mb-6 border-b border-border-subtle pb-4">
+        <div className="w-10 h-10 bg-accent-primary/10 rounded-lg flex items-center justify-center text-accent-primary">
           <ShieldCheck size={20} />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Manage Admins</h2>
-          <p className="text-sm text-slate-500">Authorize emails that will automatically get Admin access upon signup.</p>
+          <h2 className="text-xl font-bold text-text-primary">Manage Admins</h2>
+          <p className="text-sm text-text-secondary mt-1">Authorize emails that will automatically get Admin access upon signup.</p>
         </div>
       </div>
 
-      <div className="mb-6 p-4 bg-amber-50 rounded-lg border border-amber-100 flex gap-3 text-amber-800 text-sm">
-        <ShieldAlert size={18} className="flex-shrink-0 mt-0.5" />
+      <div className="mb-6 p-4 bg-warning/10 rounded-lg border border-warning/20 flex gap-3 text-text-primary text-sm">
+        <ShieldAlert size={18} className="flex-shrink-0 mt-0.5 text-warning" />
         <div>
-          <p className="font-semibold">Permanent Admin</p>
-          <p>barshanmajumdar249@gmail.com is permanently set as an admin and cannot be removed.</p>
+          <p className="font-semibold text-warning">Permanent Admin</p>
+          <p className="text-text-secondary">barshanmajumdar249@gmail.com is permanently set as an admin and cannot be removed.</p>
         </div>
       </div>
 
       <form onSubmit={handleAdd} className="flex gap-3 mb-8">
         <div className="flex-1">
-          <input
+          <Input
             type="email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             placeholder="Enter email address..."
             required
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
           />
-          {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+          {error && <p className="text-danger text-xs mt-1">{error}</p>}
         </div>
-        <button
+        <Button
           type="submit"
-          className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+          className="gap-2 shrink-0"
         >
           <Plus size={16} /> Add Admin
-        </button>
+        </Button>
       </form>
 
       <div>
-        <h3 className="font-semibold text-slate-800 mb-3">Authorized Emails</h3>
+        <h3 className="font-semibold text-text-primary mb-3">Authorized Emails</h3>
         {loading ? (
-          <p className="text-sm text-slate-500">Loading...</p>
+          <p className="text-sm text-text-secondary">Loading...</p>
         ) : (
-          <ul className="divide-y divide-slate-100 border border-slate-200 rounded-lg">
+          <ul className="divide-y divide-border-subtle border border-border-default rounded-lg">
             {emails.length === 0 ? (
-              <li className="p-4 text-center text-sm text-slate-500">No additional admin emails found.</li>
+              <li className="p-4 text-center text-sm text-text-secondary">No additional admin emails found.</li>
             ) : (
               emails.map((item) => (
-                <li key={item.id} className="p-4 flex items-center justify-between hover:bg-slate-50">
-                  <span className="text-sm font-medium text-slate-700">{item.email}</span>
+                <li key={item.id} className="p-4 flex items-center justify-between hover:bg-surface-card transition-colors">
+                  <span className="text-sm font-medium text-text-primary">{item.email}</span>
                   <button
                     onClick={() => handleRemove(item.email)}
-                    className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 rounded-md transition-colors"
+                    className="text-danger hover:text-danger/80 p-1.5 hover:bg-danger/10 rounded-md transition-colors"
                     title="Remove Access"
                   >
                     <Trash2 size={16} />
@@ -132,7 +134,7 @@ const ManageAdmins = () => {
           </ul>
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 
