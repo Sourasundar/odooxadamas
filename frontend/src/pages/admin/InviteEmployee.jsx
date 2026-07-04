@@ -100,13 +100,13 @@ const InviteEmployee = () => {
       </form>
 
       <div>
-        <h3 className="font-semibold text-slate-800 mb-3">Pending Invitations</h3>
+        <h3 className="font-semibold text-slate-800 mb-3">All Invitations</h3>
         {loading ? (
           <p className="text-sm text-slate-500">Loading...</p>
         ) : (
           <ul className="divide-y divide-slate-100 border border-slate-200 rounded-lg">
             {emails.length === 0 ? (
-              <li className="p-4 text-center text-sm text-slate-500">No pending invitations. When invited employees sign up, they are removed from this list.</li>
+              <li className="p-4 text-center text-sm text-slate-500">No invitations sent yet.</li>
             ) : (
               emails.map((item) => (
                 <li key={item.id} className="p-4 flex items-center justify-between hover:bg-slate-50">

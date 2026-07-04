@@ -95,10 +95,8 @@ const signup = async (req, res) => {
     });
 
     // Optionally delete from invited list so it isn't reused (though User table unique constraint prevents reuse anyway)
-    if (assignedRole === 'Employee') {
-      await prisma.invitedEmployee.deleteMany({ where: { email } });
-    }
-
+    // We are keeping it so the admin can see a history of all invitations they've sent.
+    
     const token = generateAuthToken(user);
     const { password: _, ...safeUser } = user;
 

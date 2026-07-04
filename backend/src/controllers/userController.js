@@ -148,6 +148,8 @@ const getEmployeeById = async (req, res) => {
         maritalStatus: true,
         location: true,
         companyName: true,
+        workingDaysPerWeek: true,
+        breakTimeHrs: true,
         managerId: true,
         manager: {
           select: { id: true, displayName: true }

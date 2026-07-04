@@ -4,6 +4,7 @@ import { Users, CalendarDays, Wallet, LogOut, UserPlus, Clock, Building, User, C
 import CreateEmployee from './admin/CreateEmployee';
 import ManageAdmins from './admin/ManageAdmins';
 import InviteEmployee from './admin/InviteEmployee';
+import EmployeeDetails from './admin/EmployeeDetails';
 
 // ── Sidebar ──────────────────────────────────────────────
 
@@ -307,6 +308,7 @@ const Dashboard = () => {
         <TopBar user={user} />
         <Routes>
           <Route path="/" element={<EmployeeCards user={user} />} />
+          <Route path="/employee/:id" element={<EmployeeDetails />} />
           <Route path="/add-employee" element={<CreateEmployee />} />
           <Route path="/invite-employee" element={<InviteEmployee />} />
           <Route path="/manage-admins" element={<ManageAdmins />} />
